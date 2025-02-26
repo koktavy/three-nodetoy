@@ -337,13 +337,18 @@ class NodeToyMaterial extends THREE.ShaderMaterial {
 			// environment has changed
 			if (this._envUUID != scene.environment.uuid) {
 				this._envUUID = scene.environment.uuid;
-					
-				const env = scene.environment.clone();
-				env.mapping = THREE.CubeUVReflectionMapping;
+
+				let env;
+			        if (scene.environment.mapping === h.CubeUVReflectionMapping) {
+			          env = scene.environment;
+			        } else {
+			          env = scene.environment.clone();
+			          env.mapping = h.CubeUVReflectionMapping;
+			        }
 
 				(this as any).envMap = env;
-				(this as any).envMap.mapping = THREE.CubeUVReflectionMapping; // Forcing this type to be able to work with ShaderMaterial
-				(this as any).envMapMode = CubeUVReflectionMapping;
+				(this as any).envMap.mapping = h.CubeUVReflectionMapping;
+				(this as any).envMapMode = h.CubeUVReflectionMapping;
 				(this as any).uniforms.envMap.value = env;
 				(this as any).uniforms.envMapIntensity.value = (this as any).envMapIntensity;
 			}	
